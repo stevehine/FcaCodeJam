@@ -8,7 +8,7 @@ export class MaxSum {
         ).reduce((prev, cur) =>
             prev.pairwise()
                 .map(pair => Math.max(pair.first, pair.second))
-                .zip(cur, (a, b) => { return a + b; })
+                .zip(cur, (a, b) => a + b)
         ).first();
     }
 
