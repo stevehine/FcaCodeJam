@@ -5,7 +5,7 @@ import * as fs from 'fs';
 const input: string[] = [];
 
 readline.createInterface({
-    input: fs.createReadStream(`input/bigTriangle.txt`),
+    input: fs.createReadStream(`input/triangle.txt`),
     terminal: false
 }).on('line', function(line) {
    input.push(line);
