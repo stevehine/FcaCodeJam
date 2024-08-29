@@ -1,8 +1,8 @@
-import { FlashingOctopus } from "./FlashingOctupus";
+import { FlashingOctopus, FlashingThing } from "./FlashingOctupus";
 
 describe("Some tests about flashing octopi", () => {
     test("A simple test", () => {
-        const flashingOctopus = new FlashingOctopus(["11111", "19991", "19191", "19991", "11111"]);
+        const flashingOctopus = new FlashingThing(["11111", "19991", "19191", "19991", "11111"]);
         for (let i = 0; i < 3; i++) {
             flashingOctopus.computeRound();
         }
