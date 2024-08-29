@@ -4,32 +4,27 @@ export class TinySubmarine {
     private _caves: Map<string, string[]>;
     constructor(data: string[]) {
         this._caves = new Map<string, string[]>();
-        data.forEach(line => {
-            const parts = line.split('-');
-            if (this._caves.has(parts[0])) {
-                this._caves.get(parts[0])?.push(parts[1]);
-            } else {
-                this._caves.set(parts[0], [parts[1]]);
-            }
-            if (this._caves.has(parts[1])) {
-                this._caves.get(parts[1])?.push(parts[0]);
-            } else {
-                this._caves.set(parts[1], [parts[0]]);
-            }
-        });
+        data.map(line => line.split('-'))
+            .map(parts => [{ l: parts[0], r: parts[1] }, { l: parts[1], r: parts[0] }])
+            .flatMap(pairings => pairings)
+            .forEach(pair => {
+                const { l, r } = pair;
+                if (this._caves.has(l)) {
+                    this._caves.get(l)?.push(r);
+                } else {
+                    this._caves.set(l, [r]);
+                }
+            });
     }
 
     public calculateRoutes(): number {
-        return this.calculateRouteFrom(["start"]);
+        return this.calculateRoute(["start"], "end");
     }
 
-
-
-    private calculateRouteFrom(route: string[]): number {
-        return this._caves.get(route[route.length - 1])?.map(cave =>
-            cave == 'end' ? 1 :
-                (!route.includes(cave) || cave.toUpperCase() === cave) ?
-                    this.calculateRouteFrom([...route, cave]) : 0
-        ).reduce((c, p) => c + p)!;
+    private calculateRoute(route: string[], target: string): number {
+        return this._caves.get(route[route.length - 1])?.filter(cave => !route.includes(cave) || cave.toUpperCase() === cave)
+            .map(cave =>
+                cave == target ? 1 : this.calculateRoute([...route, cave], target)
+            ).reduce((c, p) => c + p, 0)!;
     }
 }
