@@ -47,3 +47,4 @@ export class FlashingOctopus {
 }
 
 
+export class FlashingThing extends FlashingOctopus { }
